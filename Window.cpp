@@ -42,9 +42,7 @@ void Win::set_palette(
 // ---   *   ---   *   ---
 // init boiler
 
-int Win::sdl_nit(void) {
-
-  int out=AR_DONE;
+void Win::sdl_nit(void) {
 
   // set gl attributes
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE,4);
@@ -79,25 +77,16 @@ int Win::sdl_nit(void) {
 
   // nit and catch
   if(SDL_Init(SDL_INIT_VIDEO)<0) {
-    std::cerr
-    << "SDL init failed"
-    << std::endl
-    ;
-
-    out=AR_FATAL;
+    evil_throw(Win::Error::SDL_NIT,"");
 
   };
-
-  return out;
 
 };
 
 // ---   *   ---   *   ---
 // makes a new
 
-int Win::spawn(Win::Desc& desc) {
-
-  int out=AR_DONE;
+void Win::spawn(Win::Desc& desc) {
 
   // spawn the window
   m_handle=SDL_CreateWindow(
@@ -119,51 +108,35 @@ int Win::spawn(Win::Desc& desc) {
 
   // catch
   if(!m_handle) {
-    std::cerr
-    << "Could not create window"
-    << std::endl
-    ;
 
-    out=AR_FATAL;
+    evil_throw(
+      Win::Error::WIN_OPEN,
+      desc.title
+
+    );
 
   } else {
     this->set_flag(Win::isOpen);
 
   };
 
-  return out;
-
 };
 
 // ---   *   ---   *   ---
 
-int Win::gl_nit(void) {
-
-  int out=AR_DONE;
+void Win::gl_nit(void) {
 
   // make gl context
   m_gl_ctx=SDL_GL_CreateContext(m_handle);
 
   if(!m_gl_ctx) {
-    std::cerr
-    << "Could not create GL context"
-    << std::endl
-    ;
-
-    out=AR_FATAL;
-    goto TAIL;
+    evil_throw(Win::Error::GL_CTX,"");
 
   };
 
   // nit glew
   if(glewInit()) {
-    std::cerr
-    << "GLEW init failed"
-    << std::endl
-    ;
-
-    out=AR_FATAL;
-    goto TAIL;
+    evil_throw(Win::Error::GLEW_NIT,"");
 
   };
 
@@ -188,12 +161,6 @@ int Win::gl_nit(void) {
 
   );
 
-// ---   *   ---   *   ---
-// errme skips to here
-
-TAIL:
-  return out;
-
 };
 
 // ---   *   ---   *   ---
@@ -201,13 +168,9 @@ TAIL:
 
 Win::Win(Win::Desc& desc) {
 
-  if(
-
-     this->sdl_nit()   == AR_FATAL
-  || this->spawn(desc) == AR_FATAL
-  || this->gl_nit()    == AR_FATAL
-
-  ) {abort();};
+  this->sdl_nit();
+  this->spawn(desc);
+  this->gl_nit();
 
   // nit the program clock
   m_clk.nit(desc.fps);
@@ -264,7 +227,7 @@ Win::Desc Win::DEFDESC={
   .height     = 480,
 
   .fullscreen = false,
-  .fps        = 10.0f
+  .fps        = 60.0f
 
 };
 

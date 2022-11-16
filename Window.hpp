@@ -7,6 +7,7 @@
   #include <SDL2/SDL.h>
 
   #include "bitter/kvrnel/Style.hpp"
+  #include "bitter/kvrnel/Evil.hpp"
   #include "bitter/kvrnel/Clock.hpp"
 
 // ---   *   ---   *   ---
@@ -16,8 +17,48 @@ class Win {
 
 public:
 
-  VERSION   "v1.00.2";
+  VERSION   "v1.00.3";
   AUTHOR    "IBN-3DILA";
+
+  struct Error {
+
+    CX Evil::Errcode SDL_NIT {
+
+      .type=AR_FATAL,
+
+      .code=__COUNTER__,
+      .mess="SDL init failed"
+
+    };
+
+    CX Evil::Errcode GL_CTX {
+
+      .type=AR_FATAL,
+
+      .code=__COUNTER__,
+      .mess="Could not create GL context"
+
+    };
+
+    CX Evil::Errcode GLEW_NIT {
+
+      .type=AR_FATAL,
+
+      .code=__COUNTER__,
+      .mess="GLEW init failed"
+
+    };
+
+    CX Evil::Errcode WIN_OPEN {
+
+      .type=AR_FATAL,
+
+      .code=__COUNTER__,
+      .mess="Could not open new window"
+
+    };
+
+  };
 
 // ---   *   ---   *   ---
 // flags listing
@@ -91,9 +132,9 @@ private:
 
   };
 
-  int sdl_nit(void);
-  int spawn(Win::Desc& desc);
-  int gl_nit(void);
+  void sdl_nit(void);
+  void spawn(Win::Desc& desc);
+  void gl_nit(void);
 
 // ---   *   ---   *   ---
 // iface
