@@ -77,7 +77,7 @@ void Win::sdl_nit(void) {
 
   // nit and catch
   if(SDL_Init(SDL_INIT_VIDEO)<0) {
-    evil_throw(Win::Error::SDL_NIT,"");
+    err(Win::Error::SDL_NIT,"");
 
   };
 
@@ -109,7 +109,7 @@ void Win::spawn(Win::Desc& desc) {
   // catch
   if(!m_handle) {
 
-    evil_throw(
+    err(
       Win::Error::WIN_OPEN,
       desc.title
 
@@ -130,13 +130,13 @@ void Win::gl_nit(void) {
   m_gl_ctx=SDL_GL_CreateContext(m_handle);
 
   if(!m_gl_ctx) {
-    evil_throw(Win::Error::GL_CTX,"");
+    err(Win::Error::GL_CTX,"");
 
   };
 
   // nit glew
   if(glewInit()) {
-    evil_throw(Win::Error::GLEW_NIT,"");
+    err(Win::Error::GLEW_NIT,"");
 
   };
 

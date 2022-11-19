@@ -17,7 +17,7 @@ class Win {
 
 public:
 
-  VERSION   "v1.00.3";
+  VERSION   "v1.00.4";
   AUTHOR    "IBN-3DILA";
 
   struct Error {
@@ -156,7 +156,7 @@ public:
   inline void set_ambient_color(
     uint8_t idex
 
-  ) {m_amc=idex;};
+  ) {m_amc=idex*4;};
 
   inline void set_ambient_mult(
     float x
