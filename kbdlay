@@ -1,0 +1,157 @@
+# layout table for Chasm genks
+
+# ---   *   ---   *   ---
+# first row
+
+escape    $29
+
+F1        $3A
+F2        $3B
+F3        $3C
+F4        $3D
+F5        $3E
+F6        $3F
+F7        $40
+F8        $41
+F9        $42
+F10       $43
+F11       $44
+F12       $45
+
+# ---   *   ---   *   ---
+# second row
+
+ord       $35
+
+one       $1E
+two       $1F
+three     $20
+four      $21
+five      $22
+six       $23
+seven     $24
+eight     $25
+nine      $26
+zero      $27
+
+quest     $2D
+bar       $2E
+braz      $31
+
+bspace    $2A
+
+# ---   *   ---   *   ---
+# third row
+
+tab       $2B
+
+q         $14
+w         $1A
+e         $08
+r         $15
+t         $17
+y         $1C
+u         $18
+i         $0C
+o         $12
+p         $13
+
+hat       $2F
+aster     $30
+
+# ---   *   ---   *   ---
+# fourth row
+
+caps      $39
+
+a         $04
+s         $16
+d         $07
+f         $09
+g         $0A
+h         $0B
+j         $0D
+k         $0E
+l         $0F
+
+enie      $33
+die       $34
+
+ret       $28
+
+# ---   *   ---   *   ---
+# fifth row
+
+LShift    $E1
+brak      $64
+
+z         $1D
+x         $1B
+c         $06
+v         $19
+b         $05
+n         $11
+m         $10
+
+comma     $36
+dot       $37
+under     $38
+
+RShift    $E5
+
+# ---   *   ---   *   ---
+# sixth row
+
+LCtrl     $E0
+LSu       $E3
+LAlt      $E2
+
+space     $2C
+
+RAlt      $E6
+RSu       $E7
+menu      $65
+RCtrl     $E4
+
+# ---   *   ---   *   ---
+# fn/arrows
+
+print     $46
+scroll    $47
+irupt     $48
+ins       $49
+home      $4A
+re        $4B
+del       $4C
+end       $4D
+av        $4E
+
+right     $4F
+left      $50
+down      $51
+up        $52
+
+# ---   *   ---   *   ---
+# numpad
+
+num       $53
+div       $54
+mult      $55
+minus     $56
+plus      $57
+numret    $58
+
+numone    $59
+numtwo    $5A
+numthree  $5B
+numfour   $5C
+numfive   $5D
+numsix    $5E
+numseven  $5F
+numeight  $60
+numnine   $61
+numzero   $62
+
+numdot    $63
+
+# ---   *   ---   *   ---

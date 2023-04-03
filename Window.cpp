@@ -116,7 +116,7 @@ void Win::spawn(Win::Desc& desc) {
     );
 
   } else {
-    this->set_flag(Win::isOpen);
+    this->set_flag(Win::IS_OPEN);
 
   };
 
@@ -177,6 +177,9 @@ Win::Win(Win::Desc& desc) {
 
   // nit the default colors
   this->set_palette(&m_pal_u[0]);
+  this->calc_size();
+
+  m_flags|=desc.flags;
 
 };
 
@@ -213,6 +216,25 @@ void Win::refresh(int busy) {
   );
 
   m_clk.tick(busy);
+
+};
+
+// ---   *   ---   *   ---
+// recalculate spatial vars
+
+void Win::calc_size(void) {
+
+  SDL_GL_GetDrawableSize(
+    m_handle,
+
+    // ctrash
+    (int*) &m_size[0],
+    (int*) &m_size[1]
+
+  );
+
+  m_hsize[0]=m_size[0]/2;
+  m_hsize[1]=m_size[1]/2;
 
 };
 

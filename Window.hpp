@@ -14,10 +14,11 @@
 // info
 
 class Win {
+friend class Event;
 
 public:
 
-  VERSION   "v1.00.4";
+  VERSION   "v1.00.5";
   AUTHOR    "IBN-3DILA";
 
   struct Error {
@@ -64,8 +65,11 @@ public:
 // flags listing
 
   enum winflags {
-    isOpen,
-    numFlags
+
+    IS_OPEN  = 0x01,
+    IS_FOCUS = 0x02,
+
+    DO_MOUSE_TRAP = 0x0100
 
   };
 
@@ -82,6 +86,8 @@ public:
     bool        fullscreen;
     float       fps;
 
+    uint64_t    flags;
+
   } Desc;
 
   static Desc DEFDESC;
@@ -96,6 +102,9 @@ private:
 
   uint64_t      m_flags;
   Clock         m_clk;
+
+  uint32_t      m_size[2];
+  uint32_t      m_hsize[2];
 
 // ---   *   ---   *   ---
 // legacy: 16-color palette
@@ -123,18 +132,20 @@ private:
 // guts
 
   inline void set_flag(uint8_t x) {
-    m_flags|=0x1LL<<x;
+    m_flags |=  x;
 
   };
 
   inline void unset_flag(uint8_t x) {
-    m_flags&=~ (0x1LL<<x);
+    m_flags &=~ x;
 
   };
 
   void sdl_nit(void);
   void spawn(Win::Desc& desc);
   void gl_nit(void);
+
+  void calc_size(void);
 
 // ---   *   ---   *   ---
 // iface
@@ -149,6 +160,44 @@ public:
 
   // loop top
   void refresh(int busy);
+
+  // loop condition
+  inline bool is_open(void) {
+    return m_flags & Win::IS_OPEN;
+
+  };
+
+  // ^unlock
+  inline void close(void) {
+    this->unset_flag(Win::IS_OPEN);
+
+  };
+
+  // getters
+  inline SDL_Window* handle(void) {
+    return m_handle;
+
+  };
+
+  inline bool focused(void) {
+    return m_flags & Win::IS_FOCUS;
+
+  };
+
+  inline bool mouse_trap(void) {
+    return m_flags & Win::DO_MOUSE_TRAP;
+
+  };
+
+  inline uint32_t* size(void) {
+    return &m_size[0];
+
+  };
+
+  inline uint32_t* hsize(void) {
+    return &m_hsize[0];
+
+  };
 
   // setters
   void set_palette(uint32_t* src);
