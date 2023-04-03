@@ -90,7 +90,6 @@ void Kbd::run(void) {
 
     // on press
     if(key.is_tap) {
-printf("TAP ");
       key.on_tap(key);
 
       key.is_tap=0;
@@ -98,7 +97,6 @@ printf("TAP ");
 
     // ^key is held from last frame
     } else if(key.is_hel) {
-printf("HEL ");
       key.on_hel(key);
 
       key.reptime+=
@@ -108,7 +106,6 @@ printf("HEL ");
 
     // ^key is let go
     if(key.is_rel) {
-printf("REL ");
       key.on_rel(key);
 
       key.reptime=0;

@@ -37,23 +37,22 @@ int Event::poll(Win* win) {
     };
 
     out|=1;
+
+    bool     kbd_rel=false;
+    uint32_t kbd_key=0;
+
     switch(sev.type) {
 
 // ---   *   ---   *   ---
 // keyboard
 
     case SDL_KEYUP:
-
-      if(sev.key.keysym.sym==SDLK_ESCAPE) {
-        win->close();
-
-      };
-
-      m_kbd.push(sev.key.keysym.scancode,true);
-      break;
+      kbd_rel=true;
 
     case SDL_KEYDOWN:
-      m_kbd.push(sev.key.keysym.scancode,false);
+      kbd_key=sev.key.keysym.scancode;
+
+      m_kbd.push(kbd_key,kbd_rel);
       break;
 
 // ---   *   ---   *   ---

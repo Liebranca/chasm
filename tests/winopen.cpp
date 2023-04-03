@@ -15,18 +15,30 @@
   );
 
 // ---   *   ---   *   ---
+// GBL
 
-static void ktest(Kbd::Key& key) {
-  printf("!",key.state);
+struct App {
+  Win* win;
 
 };
 
+static App app;
+
+// ---   *   ---   *   ---
+
+static void exit_key(Kbd::Key& key) {
+  app.win->close();
+
+};
+
+// ---   *   ---   *   ---
+
 BEG_KEYSET(ks)
 
-  {left,{
-    &ktest,
-    &ktest,
-    &ktest
+  {escape,{
+    NULL,
+    NULL,
+    &exit_key
 
   }}
 
@@ -53,6 +65,8 @@ int main(void) {
   Win   win(wind);
   Event ev;
 
+  app.win=&win;
+
   Kbd&  kbd=ev.get_kbd();
 
   kbd.set_remap(Keysets::ks);
@@ -61,14 +75,10 @@ int main(void) {
   auto& key=kbd.key(Keysets::ks[0].id);
 
   while(win.is_open()) {
+
     ev.poll(&win);
 
-    printf("%03B ",key.state);
-
     kbd.run();
-
-    printf("\n");
-
     win.refresh(0);
 
   };
