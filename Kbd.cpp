@@ -15,7 +15,7 @@
   #include "Kbd.hpp"
 
 // ---   *   ---   *   ---
-// cstruc
+// cstruc blank
 
 Kbd::Kbd(void) {
 
@@ -28,7 +28,7 @@ Kbd::Kbd(void) {
 
   Key empty={0};
 
-  for(uint8_t i=0;i<0x66;i++) {
+  for(uint8_t i=0;i<NUM_KEYS;i++) {
     m_keys.push_back(empty);
     this->remap(i,&def[0]);
 
@@ -37,6 +37,9 @@ Kbd::Kbd(void) {
   };
 
 };
+
+// ---   *   ---   *   ---
+// ^initialize from set
 
 // ---   *   ---   *   ---
 // adds new event to stack

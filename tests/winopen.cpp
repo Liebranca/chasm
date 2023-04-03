@@ -4,6 +4,8 @@
   #include "Window.hpp"
   #include "Event.hpp"
 
+  #include "Kbdlay.hpp"
+
 // ---   *   ---   *   ---
 // ROM
 
@@ -18,6 +20,17 @@ static void ktest(Kbd::Key& key) {
   printf("!",key.state);
 
 };
+
+BEG_KEYSET(ks)
+
+  {left,{
+    &ktest,
+    &ktest,
+    &ktest
+
+  }}
+
+END_KEYSET;
 
 // ---   *   ---   *   ---
 
@@ -42,15 +55,10 @@ int main(void) {
 
   Kbd&  kbd=ev.get_kbd();
 
-  Kbd::Cback cbacks[3]={
-    &ktest,&ktest,&ktest
-
-  };
-
-  kbd.remap(0x35,&cbacks[0]);
+  kbd.set_remap(Keysets::ks);
   win.set_ambient_color(8);
 
-  auto& key=kbd.key(0x35);
+  auto& key=kbd.key(Keysets::ks[0].id);
 
   while(win.is_open()) {
     ev.poll(&win);

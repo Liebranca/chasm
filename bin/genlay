@@ -1,0 +1,139 @@
+#!/usr/bin/perl
+# ---   *   ---   *   ---
+# GENLAY
+# Makes layout headers
+#
+# LIBRE SOFTWARE
+# Licensed under GNU GPL3
+# be a bro and inherit
+#
+# CONTRIBUTORS
+# lyeb,
+
+# ---   *   ---   *   ---
+# deps
+
+package main;
+
+  use v5.36.0;
+  use strict;
+  use warnings;
+
+  use Readonly;
+  use English qw(-no_match_vars);
+
+  use lib $ENV{'ARPATH'}.'/lib/sys/';
+
+  use Style;
+
+  use Arstd::Array;
+  use Arstd::Path;
+  use Arstd::IO;
+
+  use lib $ENV{'ARPATH'}.'/lib/';
+
+  use Lang;
+  use Emit::Std;
+  use Emit::C;
+
+# ---   *   ---   *   ---
+# info
+
+  our $VERSION = v0.00.1;#b
+  our $AUTHOR  = 'IBN-3DILA';
+
+# ---   *   ---   *   ---
+# ROM
+
+  Readonly our $LCOM=>Lang::eaf(q[\#]);
+  Readonly our $CHPATH=>$ENV{'ARPATH'}.'/chasm/';
+
+# ---   *   ---   *   ---
+# oh boy
+
+  Readonly our $HPP_MACROS=>q[
+
+    #define BEG_KEYSET(name) \
+    namespace Keysets {\
+      Kbd::Keyset name {
+
+    #define END_KEYSET };}
+
+  ];
+
+# ---   *   ---   *   ---
+# find layout file
+
+sub ff_kbdlay() {
+  my $path=$CHPATH.'kbdlay';
+  -f $path or die "Layout file not found: <$path>";
+
+  return $path;
+
+};
+
+# ---   *   ---   *   ---
+# ^turn file into hashref
+
+sub rd_kbdlay() {
+
+  my $body=orc(ff_kbdlay());
+  $body=~ s[$LCOM][]sxmg;
+
+  my @lines=split $NEWLINE_RE,$body;
+  array_filter(\@lines);
+
+  return {map {split $NSPACE_RE,$ARG} @lines};
+
+};
+
+# ---   *   ---   *   ---
+# ^spit hpp from table
+
+sub mk_hpp() {
+
+  my $out   = $NULLSTR;
+  my $tab   = rd_kbdlay();
+
+  my $fname = "5E_KBDLAY";
+
+  my %O     = (
+
+    author     => $AUTHOR,
+
+    include    => [qw("bitter/kvrnel/Style.hpp")],
+    add_guards => 1,
+
+  );
+
+  $out.=Emit::C->boiler_open($fname,%O);
+  $out.=$HPP_MACROS;
+
+  $out.="namespace Keysets {\n\n";
+
+  for my $key(keys %$tab) {
+
+    my $id=$tab->{$key};
+    $id=~ s[^\$ ][0x]x;
+
+    $out.="  cx8 $key=$id;\n";
+
+  };
+
+  $out.="\n}; // namespace def_keyset\n";
+
+  $out.=Emit::C->boiler_close($fname,%O);
+  Emit::C->cpptrim(\$out);
+
+  return $out;
+
+};
+
+# ---   *   ---   *   ---
+# the bit
+
+my $hpp=mk_hpp();
+owc($CHPATH.'Kbdlay.hpp',$hpp);
+
+# ---   *   ---   *   ---
+1; # ret

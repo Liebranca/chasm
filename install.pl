@@ -20,6 +20,18 @@ Avt::set_config(
   incl=>[qw(bitter)],
   libs=>[qw(bitter SDL2 SDL2main GL GLEW)],
 
+  # regenerate layout files
+  # if updates detected
+  pre_build=>q[
+
+    my $path = dirof(__FILE__);
+    my $ex   = "$path/bin/genlay";
+
+    ! Shb7::moo("$path/Kbdlay.hpp","$ex")
+    or say {*STDERR} `$ex`;
+
+  ],
+
 );
 
 Avt::scan();

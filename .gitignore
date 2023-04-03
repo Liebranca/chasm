@@ -3,3 +3,4 @@ avto
 .avto-cache
 
 tests/
+Kbdlay.hpp

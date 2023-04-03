@@ -18,6 +18,8 @@ public:
   VERSION   "v0.00.1b";
   AUTHOR    "IBN-3DILA";
 
+  cx8 NUM_KEYS=0x66;
+
 // ---   *   ---   *   ---
 // helpers
 
@@ -61,6 +63,17 @@ public:
   static void noop(Key& key) {};
 
 // ---   *   ---   *   ---
+// passed to cstruc/remap
+
+  struct Key_Bld {
+    uint8_t id;
+    Cback   cbacks[3];
+
+  };
+
+  typedef std::vector<Key_Bld> Keyset;
+
+// ---   *   ---   *   ---
 // attrs
 
 private:
@@ -99,12 +112,31 @@ public:
   // set callbacks for key
   void remap(uint32_t keyid,Cback* cbacks);
 
+  // ^whole set
+  inline void set_remap(Keyset& keys) {
+    for(auto& key : keys) {
+      this->remap(key.id,&key.cbacks[0]);
+
+    };
+
+  };
+
   // remove key from active set
   inline void unmap(uint32_t keyid) {
     m_keys[keyid].active=0;
 
   };
 
+  // ^whole
+  inline void set_unmap(void) {
+    for(uint8_t i=0;i<NUM_KEYS;i++) {
+      this->unmap(i);
+
+    };
+
+  };
+
+  // get handle to specific key
   inline Key& key(uint32_t keyid) {
     return m_keys[keyid];
 
