@@ -19,10 +19,10 @@
 
 Kbd::Kbd(void) {
 
-  Cback def[3]={
-    &Kbd::noop,
-    &Kbd::noop,
-    &Kbd::noop
+  nihil def[3]={
+    &noop,
+    &noop,
+    &noop
 
   };
 
@@ -90,14 +90,14 @@ void Kbd::run(void) {
 
     // on press
     if(key.is_tap) {
-      key.on_tap(key);
+      key.on_tap();
 
       key.is_tap=0;
       key.is_hel=! key.is_rel;
 
     // ^key is held from last frame
     } else if(key.is_hel) {
-      key.on_hel(key);
+      key.on_hel();
 
       key.reptime+=
         key.reptime > uint64_t(-1);
@@ -106,7 +106,7 @@ void Kbd::run(void) {
 
     // ^key is let go
     if(key.is_rel) {
-      key.on_rel(key);
+      key.on_rel();
 
       key.reptime=0;
       key.state&=~ 0b111;
@@ -126,14 +126,14 @@ void Kbd::run(void) {
 // ---   *   ---   *   ---
 // set callbacks for key
 
-void Kbd::remap(uint32_t keyid,Kbd::Cback* cbacks) {
+void Kbd::remap(uint32_t keyid,nihil* cbacks) {
 
   Key& key=m_keys[keyid];
 
   // default blanks to do nothing
   for(uint8_t i=0;i<3;i++) {
     if(cbacks[i] == NULL) {
-      cbacks[i]=&Kbd::noop;
+      cbacks[i]=&noop;
 
     };
 
@@ -151,4 +151,3 @@ void Kbd::remap(uint32_t keyid,Kbd::Cback* cbacks) {
 };
 
 // ---   *   ---   *   ---
-

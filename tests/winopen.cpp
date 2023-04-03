@@ -1,10 +1,7 @@
 // ---   *   ---   *   ---
 // deps
 
-  #include "Window.hpp"
-  #include "Event.hpp"
-
-  #include "Kbdlay.hpp"
+  #include "Chasm.hpp"
 
 // ---   *   ---   *   ---
 // ROM
@@ -15,40 +12,10 @@
   );
 
 // ---   *   ---   *   ---
-// GBL
-
-struct App {
-  Win* win;
-
-};
-
-static App app;
-
-// ---   *   ---   *   ---
-
-static void exit_key(Kbd::Key& key) {
-  app.win->close();
-
-};
-
-// ---   *   ---   *   ---
-
-BEG_KEYSET(ks)
-
-  {escape,{
-    NULL,
-    NULL,
-    &exit_key
-
-  }}
-
-END_KEYSET;
-
-// ---   *   ---   *   ---
 
 int main(void) {
 
-  Win::Desc wind={
+  Win::Desc desc={
 
     .title      = "hello-chasm",
 
@@ -62,17 +29,13 @@ int main(void) {
 
   };
 
-  Win   win(wind);
-  Event ev;
+  Chasm.nit(desc);
 
-  app.win=&win;
+  auto& win = Chasm.win;
+  auto& ev  = Chasm.ev;
+  auto& kbd = ev.get_kbd();
 
-  Kbd&  kbd=ev.get_kbd();
-
-  kbd.set_remap(Keysets::ks);
   win.set_ambient_color(8);
-
-  auto& key=kbd.key(Keysets::ks[0].id);
 
   while(win.is_open()) {
 

@@ -5,6 +5,7 @@
 // deps
 
   #include "bitter/kvrnel/Style.hpp"
+  #include "Kbdlay.hpp"
 
 // ---   *   ---   *   ---
 // info
@@ -15,16 +16,13 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.1b";
+  VERSION   "v0.00.2b";
   AUTHOR    "IBN-3DILA";
 
   cx8 NUM_KEYS=0x66;
 
 // ---   *   ---   *   ---
 // helpers
-
-  struct Key;
-  typedef void (*Cback) (Key& key);
 
   struct Key {
 
@@ -44,11 +42,11 @@ public:
     // ^per-event callbacks
     union {
       struct {
-        Cback on_tap;
-        Cback on_hel;
-        Cback on_rel;
+        nihil on_tap;
+        nihil on_hel;
+        nihil on_rel;
 
-      };Cback cbacks[3];
+      };nihil cbacks[3];
 
     };
 
@@ -59,19 +57,17 @@ public:
   typedef std::vector<Key> Keys;
   typedef std::vector<uint32_t> Events;
 
-  // empty callback
-  static void noop(Key& key) {};
-
 // ---   *   ---   *   ---
 // passed to cstruc/remap
 
   struct Key_Bld {
     uint8_t id;
-    Cback   cbacks[3];
+    nihil   cbacks[3];
 
   };
 
   typedef std::vector<Key_Bld> Keyset;
+  static Keyset DEFKEYS;
 
 // ---   *   ---   *   ---
 // attrs
@@ -110,7 +106,7 @@ public:
   void push(uint32_t keyid,bool rel);
 
   // set callbacks for key
-  void remap(uint32_t keyid,Cback* cbacks);
+  void remap(uint32_t keyid,nihil* cbacks);
 
   // ^whole set
   inline void set_remap(Keyset& keys) {

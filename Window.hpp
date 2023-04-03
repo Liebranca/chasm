@@ -97,7 +97,7 @@ public:
 
 private:
 
-  SDL_Window*   m_handle;
+  SDL_Window*   m_handle=NULL;
   SDL_GLContext m_gl_ctx;
 
   uint64_t      m_flags;
@@ -152,8 +152,11 @@ private:
 
 public:
 
+  // ctrash
+  Win(void) {};
+
   // creates window
-  Win(Win::Desc& desc=Win::DEFDESC);
+  void nit(Win::Desc& desc);
 
   // destroys window
   ~Win(void);

@@ -107,7 +107,7 @@ void Win::spawn(Win::Desc& desc) {
   );
 
   // catch
-  if(!m_handle) {
+  if(! m_handle) {
 
     err(
       Win::Error::WIN_OPEN,
@@ -164,9 +164,9 @@ void Win::gl_nit(void) {
 };
 
 // ---   *   ---   *   ---
-// spawns a window
+// anti-cpp
 
-Win::Win(Win::Desc& desc) {
+void Win::nit(Win::Desc& desc) {
 
   this->sdl_nit();
   this->spawn(desc);
@@ -187,8 +187,12 @@ Win::Win(Win::Desc& desc) {
 // destroy window
 
 Win::~Win(void) {
-  SDL_DestroyWindow(m_handle);
-  SDL_Quit();
+
+  if(m_handle != NULL) {
+    SDL_DestroyWindow(m_handle);
+    SDL_Quit();
+
+  };
 
 };
 
