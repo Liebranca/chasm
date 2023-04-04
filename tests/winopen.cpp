@@ -12,6 +12,25 @@
   );
 
 // ---   *   ---   *   ---
+// test logic
+
+int ltest(void* data) {
+  return 0;
+
+};
+
+int dtest(void* data) {
+  static int color=0;
+  Chasm.win.set_ambient_color(color);
+
+  color++;
+  color&=0xF;
+
+  return 0;
+
+};
+
+// ---   *   ---   *   ---
 
 int main(void) {
 
@@ -31,20 +50,10 @@ int main(void) {
 
   Chasm.nit(desc);
 
-  auto& win = Chasm.win;
-  auto& ev  = Chasm.ev;
-  auto& kbd = ev.get_kbd();
+  Chasm.draw  = &dtest;
+  Chasm.logic = &ltest;
 
-  win.set_ambient_color(8);
-
-  while(win.is_open()) {
-
-    ev.poll(&win);
-
-    kbd.run();
-    win.refresh(0);
-
-  };
+  CHASM_RUN(NULL,NULL);
 
   return 0;
 

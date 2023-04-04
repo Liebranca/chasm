@@ -26,7 +26,6 @@ int Event::poll(Win* win) {
   int out=0;
   Sev sev;
 
-
   this->mouse_wrap(win);
 
   while(SDL_PollEvent(&sev)) {
@@ -35,8 +34,6 @@ int Event::poll(Win* win) {
       continue;
 
     };
-
-    out|=1;
 
     bool     kbd_rel=false;
     uint32_t kbd_key=0;
@@ -53,6 +50,8 @@ int Event::poll(Win* win) {
       kbd_key=sev.key.keysym.scancode;
 
       m_kbd.push(kbd_key,kbd_rel);
+      out|=1;
+
       break;
 
 // ---   *   ---   *   ---
@@ -62,9 +61,8 @@ int Event::poll(Win* win) {
       break;
 
     case SDL_MOUSEBUTTONUP:
-      break;
-
     case SDL_MOUSEBUTTONDOWN:
+      out|=1;
       break;
 
 // ---   *   ---   *   ---

@@ -51,3 +51,24 @@ void CHASM::nit(
 };
 
 // ---   *   ---   *   ---
+// main skeleton
+
+void CHASM::run(
+  void* draw_data,
+  void* logic_data
+
+) {
+
+  int  busy = 0;
+  Kbd& kbd  = ev.get_kbd();
+
+  busy|=draw(draw_data);
+  busy|=ev.poll(&win);
+  busy|=logic(logic_data);
+
+  kbd.run();
+  win.refresh(busy);
+
+};
+
+// ---   *   ---   *   ---
