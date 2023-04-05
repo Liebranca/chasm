@@ -14,7 +14,7 @@ class CHASM {
 
 public:
 
-  VERSION   "v2.04.0";
+  VERSION   "v2.04.1";
   AUTHOR    "IBN-3DILA";
 
   // placeholder for main
@@ -31,6 +31,16 @@ public:
   // ctrash
   CHASM(void) {};
   ~CHASM(void) {};
+
+  // this is what idiocy looks like
+  CHASM(CHASM const&)          = delete;
+  void operator=(CHASM const&) = delete;
+
+  static inline CHASM& ice(void) {
+    static CHASM ice;
+    return ice;
+
+  };
 
   // cstruc
   void nit(
@@ -51,10 +61,9 @@ public:
 // ---   *   ---   *   ---
 // singleton
 
-extern CHASM Chasm;
-
 // ^default die
 static void chasm_exit(void) {
+  auto& Chasm=CHASM::ice();
   Chasm.win.close();
 
 };

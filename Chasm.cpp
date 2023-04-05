@@ -15,9 +15,7 @@
   #include "Chasm.hpp"
 
 // ---   *   ---   *   ---
-// ugly singleton stuff
-
-CHASM Chasm;
+// decld at Kbd
 
 // makes escape kill all
 // chasm windows by default

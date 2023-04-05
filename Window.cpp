@@ -253,7 +253,9 @@ Win::Desc Win::DEFDESC={
   .height     = 480,
 
   .fullscreen = false,
-  .fps        = 60.0f
+  .fps        = 60.0f,
+
+  .flags      = 0x00
 
 };
 
