@@ -21,6 +21,8 @@ int ltest(void* data) {
 
 int dtest(void* data) {
   static int color=0;
+
+  auto& Chasm=CHASM::ice();
   Chasm.win.set_ambient_color(color);
 
   color++;
@@ -48,6 +50,7 @@ int main(void) {
 
   };
 
+  auto& Chasm=CHASM::ice();
   Chasm.nit(desc);
 
   Chasm.draw  = &dtest;

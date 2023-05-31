@@ -12,7 +12,7 @@
 // ---   *   ---   *   ---
 // deps
 
-  #include "Kbd.hpp"
+  #include "input/Kbd.hpp"
 
 // ---   *   ---   *   ---
 // cstruc blank

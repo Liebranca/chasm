@@ -27,7 +27,7 @@ Avt::set_config(
     my $path = dirof(__FILE__);
     my $ex   = "$path/bin/genlay";
 
-    ! Shb7::moo("$path/Kbdlay.hpp","$ex")
+    ! Shb7::moo("$path/input/Kbdlay.hpp","$ex")
     or say {*STDERR} `$ex`;
 
   ],

@@ -13,9 +13,7 @@
 // deps
 
   #include <cstdio>
-
-  #include "Rat.hpp"
-  #include "Event.hpp"
+  #include "input/Event.hpp"
 
 // ---   *   ---   *   ---
 // entry point
@@ -34,6 +32,9 @@ int Event::poll(Win* win) {
       continue;
 
     };
+
+    bool     rat_rel=false;
+    uint8_t  rat_key=0;
 
     bool     kbd_rel=false;
     uint32_t kbd_key=0;
@@ -58,10 +59,18 @@ int Event::poll(Win* win) {
 // mouse
 
     case SDL_MOUSEMOTION:
+      m_rat.run(&sev.motion);
+      out|=1;
+
       break;
 
     case SDL_MOUSEBUTTONUP:
+      rat_rel=true;
+
     case SDL_MOUSEBUTTONDOWN:
+      rat_key=rat_button(sev.button.button);
+      m_rat.push(rat_key,sev.button.clicks,rat_rel);
+
       out|=1;
       break;
 
@@ -174,6 +183,23 @@ void Event::mouse_wrap(Win* win) {
     m_rat.reset(win);
 
   };
+
+};
+
+// ---   *   ---   *   ---
+// (possibly redundant)
+// get mouse button as idex
+
+uint8_t Event::rat_button(uint8_t b) {
+
+  return
+
+    (Rat::LEFT)
+
+  | (Rat::MIDDLE * b==SDL_BUTTON_MIDDLE)
+  | (Rat::RIGHT  * b==SDL_BUTTON_RIGHT)
+
+  ;
 
 };
 

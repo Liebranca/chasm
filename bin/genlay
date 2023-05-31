@@ -65,7 +65,7 @@ package main;
 # find layout file
 
 sub ff_kbdlay() {
-  my $path=$CHPATH.'kbdlay';
+  my $path=$CHPATH.'input/src/kbdlay';
   -f $path or die "Layout file not found: <$path>";
 
   return $path;
@@ -133,7 +133,7 @@ sub mk_hpp() {
 # the bit
 
 my $hpp=mk_hpp();
-owc($CHPATH.'Kbdlay.hpp',$hpp);
+owc($CHPATH.'input/Kbdlay.hpp',$hpp);
 
 # ---   *   ---   *   ---
 1; # ret

@@ -5,7 +5,7 @@
 // deps
 
   #include "bitter/kvrnel/Style.hpp"
-  #include "Event.hpp"
+  #include "input/Event.hpp"
 
 // ---   *   ---   *   ---
 // info
@@ -32,15 +32,7 @@ public:
   CHASM(void) {};
   ~CHASM(void) {};
 
-  // this is what idiocy looks like
-  CHASM(CHASM const&)          = delete;
-  void operator=(CHASM const&) = delete;
-
-  static inline CHASM& ice(void) {
-    static CHASM ice;
-    return ice;
-
-  };
+  SINGLETON(CHASM);
 
   // cstruc
   void nit(

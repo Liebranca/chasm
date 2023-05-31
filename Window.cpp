@@ -60,20 +60,22 @@ void Win::sdl_nit(void) {
   );
 
   SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_PROFILE_MASK,
+    SDL_GL_CONTEXT_PROFILE_CORE
+
+  );
+
+  SDL_GL_SetAttribute(
     SDL_GL_CONTEXT_MAJOR_VERSION,4
 
   );
 
   SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_MINOR_VERSION,6
+    SDL_GL_CONTEXT_MINOR_VERSION,5
 
   );
 
-  SDL_GL_SetAttribute(
-    SDL_GL_CONTEXT_PROFILE_MASK,
-    SDL_GL_CONTEXT_PROFILE_CORE
-
-  );
+// ---   *   ---   *   ---
 
   // nit and catch
   if(SDL_Init(SDL_INIT_VIDEO)<0) {
@@ -232,13 +234,13 @@ void Win::calc_size(void) {
     m_handle,
 
     // ctrash
-    (int*) &m_size[0],
-    (int*) &m_size[1]
+    (int*) &m_size.x,
+    (int*) &m_size.y
 
   );
 
-  m_hsize[0]=m_size[0]/2;
-  m_hsize[1]=m_size[1]/2;
+  m_hsize.x=m_size.x/2;
+  m_hsize.y=m_size.y/2;
 
 };
 

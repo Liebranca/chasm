@@ -5,7 +5,7 @@
 // deps
 
   #include "bitter/kvrnel/Style.hpp"
-  #include "Kbdlay.hpp"
+  #include "input/Kbdlay.hpp"
 
 // ---   *   ---   *   ---
 // info
@@ -16,7 +16,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.2b";
+  VERSION   "v0.00.3b";
   AUTHOR    "IBN-3DILA";
 
   cx8 NUM_KEYS=0x66;
@@ -86,6 +86,16 @@ private:
       m_events.erase(m_events.begin()+i);
 
     };
+
+  };
+
+  // ^remove all
+  inline void clear(void) {
+    m_events.erase(
+      m_events.begin(),
+      m_events.end()
+
+    );
 
   };
 

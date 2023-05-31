@@ -6,8 +6,8 @@
 
   #include "bitter/kvrnel/Style.hpp"
 
-  #include "Kbd.hpp"
-  #include "Rat.hpp"
+  #include "input/Kbd.hpp"
+  #include "input/Rat.hpp"
 
 // ---   *   ---   *   ---
 // info
@@ -40,6 +40,10 @@ private:
 
   // keep mouse in window if flag set
   void mouse_wrap(Win* win);
+
+  // (possibly redundant)
+  // get mouse button as idex
+  uint8_t rat_button(uint8_t b);
 
 // ---   *   ---   *   ---
 // iface

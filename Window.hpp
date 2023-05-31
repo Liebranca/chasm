@@ -4,6 +4,7 @@
 // ---   *   ---   *   ---
 // deps
 
+  #include <glm/glm.hpp>
   #include <SDL2/SDL.h>
 
   #include "bitter/kvrnel/Style.hpp"
@@ -18,7 +19,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v1.00.5";
+  VERSION   "v1.00.6";
   AUTHOR    "IBN-3DILA";
 
   struct Error {
@@ -103,8 +104,8 @@ private:
   uint64_t      m_flags;
   Clock         m_clk;
 
-  uint32_t      m_size[2];
-  uint32_t      m_hsize[2];
+  glm::uvec2    m_size;
+  glm::uvec2    m_hsize;
 
 // ---   *   ---   *   ---
 // legacy: 16-color palette
@@ -192,13 +193,13 @@ public:
 
   };
 
-  inline uint32_t* size(void) {
-    return &m_size[0];
+  inline glm::uvec2& size(void) {
+    return m_size;
 
   };
 
-  inline uint32_t* hsize(void) {
-    return &m_hsize[0];
+  inline glm::uvec2& hsize(void) {
+    return m_hsize;
 
   };
 
