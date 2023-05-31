@@ -179,7 +179,10 @@ void Win::nit(Win::Desc& desc) {
 
   // nit the default colors
   this->set_palette(&m_pal_u[0]);
+
+  // run further nit ruts
   this->calc_size();
+  this->update_wflags();
 
   m_flags|=desc.flags;
 

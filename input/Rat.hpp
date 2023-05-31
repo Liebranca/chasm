@@ -17,7 +17,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.2b";
+  VERSION   "v0.00.3b";
   AUTHOR    "IBN-3DILA";
 
   enum {
@@ -103,6 +103,16 @@ public:
     m_motion.y=m_rel.y*mult;
 
     return m_motion;
+
+  };
+
+  // ^clears at frame end
+  void reset_motion(void);
+  void reset_button(void);
+
+  // get absolute position in screen cords
+  inline glm::uvec2& get_position(void) {
+    return m_abs;
 
   };
 

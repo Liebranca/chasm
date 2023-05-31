@@ -107,6 +107,10 @@ private:
   glm::uvec2    m_size;
   glm::uvec2    m_hsize;
 
+  // sdl window flags,
+  // distinct from m_flags!
+  uint32_t      m_wflags;
+
 // ---   *   ---   *   ---
 // legacy: 16-color palette
 
@@ -147,6 +151,11 @@ private:
   void gl_nit(void);
 
   void calc_size(void);
+
+  void update_wflags(void) {
+    m_wflags=SDL_GetWindowFlags(m_handle);
+
+  };
 
 // ---   *   ---   *   ---
 // iface
@@ -200,6 +209,42 @@ public:
 
   inline glm::uvec2& hsize(void) {
     return m_hsize;
+
+  };
+
+  uint32_t wflags(void) {
+    return m_wflags;
+
+  };
+
+  bool is_fullscreen(void) {
+    return
+      m_wflags
+    & SDL_WINDOW_FULLSCREEN_DESKTOP
+    ;
+
+  };
+
+  bool is_minimized(void) {
+    return
+      m_wflags
+    & SDL_WINDOW_MINIMIZED
+    ;
+
+  };
+
+  // wrap mouse if window is NOT fullscreen
+  bool windowed_do_wrap(void) {
+    return
+       this->mouse_trap()
+    && this->focused()
+    ;
+
+  };
+
+  // ^window IS fullscreen
+  bool fullscreen_do_wrap(void) {
+    return ! this->is_minimized();
 
   };
 

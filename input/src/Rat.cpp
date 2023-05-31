@@ -62,13 +62,47 @@ uint8_t Rat::at_wall(Win* win) {
 
 void Rat::run(Motion* motion) {
 
+  this->reset_motion();
+  this->reset_button();
+
+  // set position
   m_abs.x  = motion->x;
   m_abs.y  = motion->y;
 
-  m_rel.x  = (float) (motion->xrel * m_sens);
-  m_rel.y  = (float) (motion->yrel * m_sens);
+  // cancel motion if
+  // caused by mouse trap
+  m_rel.x  = (float) (
+
+      motion->xrel
+
+  *   m_sens
+  * ! m_wrapped
+
+  );
+
+  m_rel.y  = (float) (
+
+    motion->yrel
+
+  *   m_sens
+  * ! m_wrapped
+
+  );
 
   m_wrapped = false;
+
+};
+
+// ---   *   ---   *   ---
+// ^clears at frame end
+
+void Rat::reset_motion(void) {
+  m_motion.x=0.0f;
+  m_motion.y=0.0f;
+
+};
+
+void Rat::reset_button(void) {
 
   m_button[LEFT].t+=
     1.0f * (m_button[LEFT].t > 0);

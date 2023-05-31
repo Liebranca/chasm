@@ -21,7 +21,9 @@
 
 int Event::poll(Win* win) {
 
-  int out=0;
+  int rat_state = 0b001;
+  int out       = 0;
+
   Sev sev;
 
   this->mouse_wrap(win);
@@ -33,11 +35,11 @@ int Event::poll(Win* win) {
 
     };
 
-    bool     rat_rel=false;
-    uint8_t  rat_key=0;
+    bool     rat_rel   = false;
+    uint8_t  rat_key   = 0;
 
-    bool     kbd_rel=false;
-    uint32_t kbd_key=0;
+    bool     kbd_rel   = false;
+    uint32_t kbd_key   = 0;
 
     switch(sev.type) {
 
@@ -59,8 +61,11 @@ int Event::poll(Win* win) {
 // mouse
 
     case SDL_MOUSEMOTION:
+
       m_rat.run(&sev.motion);
-      out|=1;
+
+      rat_state &=~ 0b001;
+      out       |=  1;
 
       break;
 
@@ -80,6 +85,11 @@ int Event::poll(Win* win) {
 // ---   *   ---   *   ---
 
     };
+
+  };
+
+  if(rat_state&1) {
+    m_rat.reset_motion();
 
   };
 
@@ -117,6 +127,8 @@ bool Event::win_focus(Win* win,Sev* sev) {
 // ^control focus gain/loss
 
 bool Event::ctl_focus(Win* win,Sev* sev) {
+
+  win->update_wflags();
 
   bool mouse_trap=win->mouse_trap();
   bool mouse_hide=false;
@@ -160,24 +172,10 @@ bool Event::ctl_focus(Win* win,Sev* sev) {
 
 void Event::mouse_wrap(Win* win) {
 
-  uint32_t wflags =
-    SDL_GetWindowFlags(win->handle());
-
-  bool mouse_trap = win->mouse_trap();
-  bool focused    = win->focused();
-
-  bool fullscreen =
-    wflags & SDL_WINDOW_FULLSCREEN_DESKTOP;
-
-  bool minimized  =
-    wflags & SDL_WINDOW_MINIMIZED;
-
-  bool do_wrap    = (fullscreen)
-    ? m_rat.at_wall(win)
-    : focused
+  bool do_wrap=(win->is_fullscreen())
+    ? win->fullscreen_do_wrap()
+    : win->windowed_do_wrap()
     ;
-
-  do_wrap*=mouse_trap*(! minimized);
 
   if(do_wrap) {
     m_rat.reset(win);
