@@ -16,7 +16,7 @@ class Event {
 
 public:
 
-  VERSION   "v0.00.4b";
+  VERSION   "v0.00.5b";
   AUTHOR    "IBN-3DILA";
 
 // ---   *   ---   *   ---

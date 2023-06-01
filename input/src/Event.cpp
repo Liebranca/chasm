@@ -194,8 +194,8 @@ uint8_t Event::rat_button(uint8_t b) {
 
     (Rat::LEFT)
 
-  | (Rat::MIDDLE * b==SDL_BUTTON_MIDDLE)
-  | (Rat::RIGHT  * b==SDL_BUTTON_RIGHT)
+  | (Rat::MIDDLE * (b==SDL_BUTTON_MIDDLE))
+  | (Rat::RIGHT  * (b==SDL_BUTTON_RIGHT))
 
   ;
 

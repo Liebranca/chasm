@@ -16,7 +16,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.3b";
+  VERSION   "v0.00.4b";
   AUTHOR    "IBN-3DILA";
 
   cx8 NUM_KEYS=0x66;
@@ -60,13 +60,13 @@ public:
 // ---   *   ---   *   ---
 // passed to cstruc/remap
 
-  struct Key_Bld {
+  struct Key_Bind {
     uint8_t id;
     nihil   cbacks[3];
 
   };
 
-  typedef std::vector<Key_Bld> Keyset;
+  typedef std::vector<Key_Bind> Keyset;
   static Keyset DEFKEYS;
 
 // ---   *   ---   *   ---

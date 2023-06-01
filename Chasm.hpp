@@ -51,9 +51,8 @@ public:
 };
 
 // ---   *   ---   *   ---
-// singleton
-
 // ^default die
+
 static void chasm_exit(void) {
   auto& Chasm=CHASM::ice();
   Chasm.win.close();

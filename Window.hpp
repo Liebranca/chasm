@@ -19,7 +19,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v1.00.6";
+  VERSION   "v1.00.7";
   AUTHOR    "IBN-3DILA";
 
   struct Error {
@@ -189,6 +189,11 @@ public:
   // getters
   inline SDL_Window* handle(void) {
     return m_handle;
+
+  };
+
+  inline Clock& clock(void) {
+    return m_clk;
 
   };
 

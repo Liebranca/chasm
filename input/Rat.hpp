@@ -17,7 +17,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.3b";
+  VERSION   "v0.00.4b";
   AUTHOR    "IBN-3DILA";
 
   enum {
@@ -123,7 +123,7 @@ public:
   };
 
   // get number of clicks for button
-  inline uint32_t nclicks(uint8_t idex) {
+  inline uint32_t clicks(uint8_t idex) {
     return m_button[idex].c;
 
   };
@@ -140,7 +140,7 @@ public:
   };
 
   // ^a combination of the two ;>
-  inline bool nheld(
+  inline bool clicks_held(
 
     uint8_t idex,
     uint8_t cnt,
@@ -150,10 +150,10 @@ public:
 
   ) {
 
-    auto n=this->nclicks(idex);
+    auto c=this->clicks(idex);
     auto h=this->held(idex,mult);
 
-    return (n==cnt) && (h > len);
+    return (c==cnt) && (h > len);
 
   };
 
