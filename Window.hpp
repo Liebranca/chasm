@@ -19,8 +19,11 @@ friend class Event;
 
 public:
 
-  VERSION   "v1.00.7";
+  VERSION   "v1.00.8";
   AUTHOR    "IBN-3DILA";
+
+// ---   *   ---   *   ---
+// errmes
 
   struct Error {
 
@@ -136,12 +139,12 @@ private:
 // ---   *   ---   *   ---
 // guts
 
-  inline void set_flag(uint8_t x) {
+  inline void set_flag(uint64_t x) {
     m_flags |=  x;
 
   };
 
-  inline void unset_flag(uint8_t x) {
+  inline void unset_flag(uint64_t x) {
     m_flags &=~ x;
 
   };
@@ -206,6 +209,10 @@ public:
     return m_flags & Win::DO_MOUSE_TRAP;
 
   };
+
+  // lock/unlock cursor
+  void disable_mouse_trap(void);
+  void enable_mouse_trap(void);
 
   inline glm::uvec2& size(void) {
     return m_size;

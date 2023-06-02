@@ -248,6 +248,21 @@ void Win::calc_size(void) {
 };
 
 // ---   *   ---   *   ---
+// lock/unlock cursor
+
+void Win::disable_mouse_trap(void) {
+  this->unset_flag(Win::DO_MOUSE_TRAP);
+  SDL_ShowCursor(SDL_ENABLE);
+
+};
+
+void Win::enable_mouse_trap(void) {
+  this->set_flag(Win::DO_MOUSE_TRAP);
+  SDL_ShowCursor(SDL_DISABLE);
+
+};
+
+// ---   *   ---   *   ---
 // ctrash: construc defaults
 
 Win::Desc Win::DEFDESC={

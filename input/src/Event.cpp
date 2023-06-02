@@ -27,6 +27,7 @@ int Event::poll(Win* win) {
   Sev sev;
 
   this->mouse_wrap(win);
+  m_rat.set_wheel(0);
 
   while(SDL_PollEvent(&sev)) {
 
@@ -77,6 +78,10 @@ int Event::poll(Win* win) {
       m_rat.push(rat_key,sev.button.clicks,rat_rel);
 
       out|=1;
+      break;
+
+    case SDL_MOUSEWHEEL:
+      m_rat.set_wheel(sev.wheel.y);
       break;
 
 // ---   *   ---   *   ---

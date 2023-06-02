@@ -17,7 +17,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.4b";
+  VERSION   "v0.00.6b";
   AUTHOR    "IBN-3DILA";
 
   enum {
@@ -34,6 +34,9 @@ public:
     RIGHT  = 0b10
 
   };
+
+  // mouse-motion epsilon
+  cxr32 MOEPS=0.001f;
 
 // ---   *   ---   *   ---
 // helper
@@ -57,6 +60,8 @@ private:
   glm::vec2  m_motion;
 
   float      m_sens    = 0.65f;
+  float      m_wheel   = 0.00f;
+
   bool       m_wrapped = false;
 
   Buttons    m_button  = {
@@ -92,6 +97,12 @@ private:
 
   );
 
+  // registers wheel scroll
+  void set_wheel(int32_t y) {
+    m_wheel=(float) y;
+
+  };
+
 // ---   *   ---   *   ---
 // iface
 
@@ -99,8 +110,15 @@ public:
 
   // get movement since last frame
   inline glm::vec2& get_motion(float mult=1.0f) {
-    m_motion.x=m_rel.x*mult;
-    m_motion.y=m_rel.y*mult;
+
+    m_motion.x  = m_rel.x * mult;
+    m_motion.y  = m_rel.y * mult;
+
+    float eps   = MOEPS / mult;
+
+    // clamp if below epsilon
+    m_motion.x *= fabs(m_motion.x) > eps;
+    m_motion.y *= fabs(m_motion.y) > eps;
 
     return m_motion;
 
@@ -109,6 +127,12 @@ public:
   // ^clears at frame end
   void reset_motion(void);
   void reset_button(void);
+
+  // get scrolling
+  inline float wheel(void) {
+    return m_wheel;
+
+  };
 
   // get absolute position in screen cords
   inline glm::uvec2& get_position(void) {
