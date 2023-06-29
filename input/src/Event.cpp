@@ -98,6 +98,8 @@ int Event::poll(Win* win) {
 
   };
 
+  m_rat.update_buttons();
+
   return out;
 
 };

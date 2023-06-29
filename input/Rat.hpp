@@ -17,7 +17,7 @@ friend class Event;
 
 public:
 
-  VERSION   "v0.00.6b";
+  VERSION   "v0.00.7b";
   AUTHOR    "IBN-3DILA";
 
   enum {
@@ -29,9 +29,12 @@ public:
   };
 
   enum {
-    LEFT   = 0b00,
-    MIDDLE = 0b01,
-    RIGHT  = 0b10
+
+    LEFT,
+    MIDDLE,
+    RIGHT,
+
+    NUM_BUTTONS
 
   };
 
@@ -87,6 +90,9 @@ private:
   // make note of movements
   void run(Motion* motion);
 
+  // ^clears at frame beg
+  void reset_motion(void);
+
   // register button press
   void push(
 
@@ -102,6 +108,9 @@ private:
     m_wheel=(float) y;
 
   };
+
+  // updates timer on held buttons
+  void update_buttons(void);
 
 // ---   *   ---   *   ---
 // iface
@@ -123,10 +132,6 @@ public:
     return m_motion;
 
   };
-
-  // ^clears at frame end
-  void reset_motion(void);
-  void reset_button(void);
 
   // get scrolling
   inline float wheel(void) {
@@ -153,7 +158,7 @@ public:
   };
 
   // ^get time button is held
-  inline float held(
+  inline float hel_time(
     uint8_t idex,
     float   mult=1.0f
 
@@ -164,7 +169,7 @@ public:
   };
 
   // ^a combination of the two ;>
-  inline bool clicks_held(
+  inline bool clicks_hel_time(
 
     uint8_t idex,
     uint8_t cnt,
@@ -175,9 +180,27 @@ public:
   ) {
 
     auto c=this->clicks(idex);
-    auto h=this->held(idex,mult);
+    auto h=this->hel_time(idex,mult);
 
     return (c==cnt) && (h > len);
+
+  };
+
+  // get button was tapped this frame
+  inline bool tap(uint8_t idex) {
+    return m_button[idex].t == 1.0f;
+
+  };
+
+  // ^get button is being held down
+  inline bool hel(uint8_t idex) {
+    return m_button[idex].t > 1.0f;
+
+  };
+
+  // ^get button was released this frame
+  inline bool rel(uint8_t idex) {
+    return m_button[idex].t == -2.0f;
 
   };
 
@@ -186,3 +209,4 @@ public:
 // ---   *   ---   *   ---
 
 #endif // __5E_RAT_H__
+

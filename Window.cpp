@@ -150,11 +150,7 @@ void Win::gl_nit(void) {
   // set further gl options
   glEnable(GL_ALPHA_TEST);
   glEnable(GL_DEPTH_TEST);
-
-// we don't need this one right now
-// keeping it around for when we do ;>
-  glDisable(GL_CULL_FACE);
-//  glCullFace(GL_BACK);
+  glCullFace(GL_BACK);
 
   glEnable(GL_BLEND);
   glBlendFunc(

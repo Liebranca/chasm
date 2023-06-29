@@ -63,7 +63,6 @@ uint8_t Rat::at_wall(Win* win) {
 void Rat::run(Motion* motion) {
 
   this->reset_motion();
-  this->reset_button();
 
   // set position
   m_abs.x  = motion->x;
@@ -102,16 +101,33 @@ void Rat::reset_motion(void) {
 
 };
 
-void Rat::reset_button(void) {
+// ---   *   ---   *   ---
+// updates timer on held buttons
 
-  m_button[LEFT].t+=
-    1.0f * (m_button[LEFT].t > 0);
+void Rat::update_buttons(void) {
 
-  m_button[MIDDLE].t+=
-    1.0f * (m_button[MIDDLE].t > 0);
+  for(uint8_t i=0;i<NUM_BUTTONS;i++) {
 
-  m_button[RIGHT].t+=
-    1.0f * (m_button[RIGHT].t > 0);
+    auto& b = m_button[i];
+
+    // or tap, doesnt matter at this stage
+    bool  held = b.c != 0;
+
+    // two-frame check:
+    // just released v released a frame ago
+    bool  released = b.t == -1.0f;
+    bool  inactive = b.t == -2.0f;
+
+    b.t += 1.0f * held;
+    b.t -= 1.0f * released;
+
+    // ^conditional sum
+    b.t  =
+      (b.t * held)
+    + (b.t * released)
+    ;
+
+  };
 
 };
 
@@ -130,13 +146,13 @@ void Rat::push(
   m_button[idex].c=(
     m_button[idex].c
   + clicks
-  ) * ! rel;
+  ) *! rel;
 
-  m_button[idex].t=(
-    m_button[idex].t
-  + 1.0f
-
-  ) * ! rel;
+  // negative time signals release
+  m_button[idex].t=
+    (m_button[idex].t  *! rel)
+  - (1.0f *  rel)
+  ;
 
 };
 
